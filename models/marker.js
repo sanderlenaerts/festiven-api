@@ -12,30 +12,17 @@ var markerSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
-  }
-  // Collection makes sure MongoDB uses the specified collection name
-  // DiscriminatorKey will make sure the subtypes are saved with the right type ('Car' or 'Tent') and allows usage of instanceof
-}, {
-  collection: 'markers',
-  discriminatorKey: '_type'
-});
-
-// Extend the marker schema with an enum that allows Car and Tent to distinguish the type of marker
-var privateMarkerSchema = markerSchema.extend({
-  type: String,
-  enum: ['Car', 'Tent'],
-  required: true
-});
-
-// Extend the marker schema with a list of users the marker is shared with
-var sharedMarkerSchema = markerSchema.extend({
-  users: [{
+  },
+  type: {
+    type: String,
+    enum: ['Car', 'Tent'],
+  },
+  shared: [{
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'User'
   }]
+
 });
 
 // Export the created models so they're accessible by name through mongoose
-mongoose.model('Marker', markerSchema),
-mongoose.model('SharedMarker', sharedMarkerSchema);
-mongoose.model('PrivateMarker', privateMarkerSchema);
+mongoose.model('Marker', markerSchema)

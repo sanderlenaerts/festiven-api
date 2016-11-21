@@ -14,7 +14,7 @@ module.exports.register = function(req, res, next){
       next(err);
     }
     else {
-      res.status(201).json({'message', 'Account was succesfully created'});
+      res.status(201).json({'message': 'Account was succesfully created'});
     }
   })
 

@@ -3,8 +3,6 @@ var bodyParser = require('body-parser');
 
 
 require('./db');
-require('./config/passport');
-
 var app = express();
 
 var PORT = process.env.PORT || 3000;
