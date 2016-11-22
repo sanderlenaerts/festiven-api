@@ -19,7 +19,7 @@ module.exports.register = function(req, res, next){
 
   // Check if user already exists
 
-  user.findOne({id: user.id}, function(err, result){
+  User.findOne({id: user.id}, function(err, result){
     if (err){
       console.log(err);
     }
