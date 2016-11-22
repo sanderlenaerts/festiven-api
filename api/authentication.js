@@ -17,15 +17,32 @@ module.exports.register = function(req, res, next){
 
   console.log('Registering')
 
-  user.save(function(err){
+  // Check if user already exists
+
+  user.findOne({id: user.id}, function(err, result){
     if (err){
       console.log(err);
-      next(err);
+    }
+    else if (result){
+      // User already exists, so we do nothing
+      res.status(200).json({'message': 'Account was already there'});
     }
     else {
+      // Create account
 
-      res.status(201).json({'message': 'Account was succesfully created'});
+      user.save(function(err){
+        if (err){
+          console.log(err);
+          next(err);
+        }
+        else {
+
+          res.status(201).json({'message': 'Account was succesfully created'});
+        }
+      })
     }
   })
+
+
 
 }
