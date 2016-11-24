@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 // Connect to the database
-mongoose.connect('mongodb://95.85.9.178:27017/festiven', function(){
+mongoose.connect('mongodb://188.166.58.138:27017/festiven', function(){
   console.log('MongoDB connected');
 });
 

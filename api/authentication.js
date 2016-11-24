@@ -3,8 +3,12 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 //Facebook register
 module.exports.register = function(req, res, next){
+  console.log('Creating user object');
   var user = new User();
 
+  console.log(req.body.name);
+  console.log(req.body.id);
+  
   user.name = req.body.name;
   user.id = req.body.id;
 
