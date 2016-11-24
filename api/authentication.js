@@ -3,22 +3,13 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 //Facebook register
 module.exports.register = function(req, res, next){
-  console.log('Registering')
-
   var user = new User();
-
-  console.log('User object created')
 
   user.name = req.body.name;
   user.id = req.body.id;
 
-  console.log(req.body.name);
-  console.log(req.body.id);
-
-  console.log('Registering')
 
   // Check if user already exists
-
   User.findOne({id: user.id}, function(err, result){
     if (err){
       console.log(err);
