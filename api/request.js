@@ -10,9 +10,15 @@ module.exports.send = function(req, res, next){
 
   //
   User.findOne({id: from}, function(err, result){
+    if (err){
+      console.log(err);
+    }
     console.log("Found from user");
     var fromUser = result;
     User.findOne({id: to}, function(err, result){
+      if (err){
+        console.log(err);
+      }
       console.log("Found to user");
       var toUser = result;
 
