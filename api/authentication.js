@@ -8,7 +8,7 @@ module.exports.register = function(req, res, next){
 
   console.log(req.body.name);
   console.log(req.body.id);
-  
+
   user.name = req.body.name;
   user.id = req.body.id;
 
@@ -26,8 +26,9 @@ module.exports.register = function(req, res, next){
     else {
       // Create account
 
-
+      console.log('Saving new user');
       user.save(function(err){
+        console.log('Trying to persist to mongodb')
         if (err){
           console.log(err);
           next(err);

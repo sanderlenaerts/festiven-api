@@ -10,7 +10,7 @@ module.exports.send = function(req, res, next){
   var to = req.body.to;
 
   //
-  User.findOne({id: from}, =function(err, result){
+  User.findOne({id: from}, function(err, result){
     if (err){
       console.log(err);
     }
