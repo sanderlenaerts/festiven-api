@@ -6,6 +6,6 @@ var ctrlReq = require('./request');
 
 // Example
 router.post('/register', ctrlAuth.register);
-router.post('/add-request', ctrlReq.send);
+router.post('/addrequest', ctrlReq.send);
 
 module.exports = router;

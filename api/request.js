@@ -4,6 +4,7 @@ var User = mongoose.model('User');
 
 
 module.exports.send = function(req, res, next){
+  console.log('SEND REQUEST');
 
   var from = req.body.origin;
   var to = req.body.to;
