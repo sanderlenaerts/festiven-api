@@ -40,11 +40,11 @@ module.exports.send = function(req, res, next){
               if (err){
                 console.log(err);
               }
+              rres.status(200).json({'message': 'Friend request was sent'});
               console.log('Added to received');
             }
           ) // End update
         } // End then
-        }
       )
 
     }) // End find
