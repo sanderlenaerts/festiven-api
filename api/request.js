@@ -23,11 +23,13 @@ module.exports.send = function(req, res, next){
       console.log("Found to user");
       var toUser = result;
 
+
+
       User.update(
         {
           _id: fromUser._id
         },
-        {$push: {sent: toUser._id}}, function(err){
+        {$addToSet: {sent: toUser._id}}, function(err){
           if (err){
             console.log(err);
           }
@@ -36,7 +38,7 @@ module.exports.send = function(req, res, next){
             {
               _id: toUser._id
             },
-            {$push: {received: fromUser._id}}, function(err){
+            {$addToSet: {received: fromUser._id}}, function(err){
               if (err){
                 console.log(err);
               }
