@@ -42,7 +42,7 @@ module.exports.send = function(req, res, next){
               if (err){
                 console.log(err);
               }
-              rres.status(200).json({'message': 'Friend request was sent'});
+              res.status(200).json({'message': 'Friend request was sent'});
               console.log('Added to received');
             }
           ) // End update
@@ -54,19 +54,17 @@ module.exports.send = function(req, res, next){
 }
 
 module.exports.getSent = function(req, res, next){
+  console.log('getSent');
   var id = req.body.id;
+  console.log(id);
 
   User
   .findOne({ id: id })
-  .select('users')
-  .populate('users', 'id name')
+  .populate('users')
   .exec(function (err, user) {
     if (err) {
       console.log(err);
     }
-
-    console.log(user);
-    console.log(user.sent);
     res.status(200).json(user.sent);
 
 
