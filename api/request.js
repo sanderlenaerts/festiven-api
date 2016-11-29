@@ -52,21 +52,3 @@ module.exports.send = function(req, res, next){
     }) // End find
   }) // End find
 }
-
-module.exports.getSent = function(req, res, next){
-  console.log('getSent');
-  var id = req.body.id;
-  console.log(id);
-
-  User
-  .findOne({ id: id })
-  .populate('users')
-  .exec(function (err, user) {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(user.sent);
-
-
-  });
-}

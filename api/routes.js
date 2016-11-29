@@ -7,6 +7,8 @@ var ctrlReq = require('./request');
 // Example
 router.post('/register', ctrlAuth.register);
 router.post('/addrequest', ctrlReq.send);
-router.post('/sent-requests', ctrlReq.getSent);
+router.post('/user/sent', ctrlReq.getSent);
+
+router.get('/user/friends')
 
 module.exports = router;
