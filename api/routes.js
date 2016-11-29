@@ -11,6 +11,7 @@ router.post('/addrequest', ctrlReq.send);
 
 
 router.post('/user/sent', ctrlUser.getSent);
+router.post('/user/received', ctrlUser.getReceived);
 router.post('/user/friends', ctrlUser.getFriends);
 
 module.exports = router;
