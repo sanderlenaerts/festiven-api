@@ -66,26 +66,27 @@ module.exports.accept = function(req, res, next){
     if (err){
       console.log(err);
     }
-    fromUser = resultOne.name;
+    fromName = resultOne.name;
     fromId = resultOne._id;
+
     User.findOne({id: to}, function(err, resultTwo){
       if (err){
         console.log(err);
       }
-      toUser = resultTwo.name;
+      toName = resultTwo.name;
       toId = resultTwo._id;
 
       User.update(
-        {_id: fromId},
-        {$pull: { 'received': {name: toUser}}},
+        {name: fromName},
+        {$pull: { 'received': {_id: toId}}},
         {safe: true},
         function(err, resultThree){
           if (err){
             console.log(err);
           }
           User.update(
-            {_id: toId},
-            {$pull: { 'sent': {name: fromUser}}},
+            {name: toName},
+            {$pull: { 'sent': {_id: fromId}}},
             {safe: true},
             function(err, resultFour){
               if (err){
