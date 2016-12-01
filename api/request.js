@@ -68,6 +68,7 @@ module.exports.accept = function(req, res, next){
     }
     fromName = resultOne.name;
     fromId = resultOne._id;
+    console.log(fromId);
 
     User.findOne({id: to}, function(err, resultTwo){
       if (err){
@@ -75,7 +76,7 @@ module.exports.accept = function(req, res, next){
       }
       toName = resultTwo.name;
       toId = resultTwo._id;
-
+      console.log(toId);
       User.update(
         {name: fromName},
         {$pull: { 'received': {_id: toId}}},
