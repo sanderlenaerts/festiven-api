@@ -79,7 +79,7 @@ module.exports.accept = function(req, res, next){
       console.log(toId);
       User.update(
         {name: fromName},
-        {$pull: { 'received': {_id: toId}}},
+        {$pull: { 'received': {_id: mongoose.Schema.Types.ObjectId(toId)}}},
         {safe: true},
         function(err, resultThree){
           if (err){
@@ -87,7 +87,7 @@ module.exports.accept = function(req, res, next){
           }
           User.update(
             {name: toName},
-            {$pull: { 'sent': {_id: fromId}}},
+            {$pull: { 'sent': {_id: mongoose.Schema.Types.ObjectId(fromId)}}},
             {safe: true},
             function(err, resultFour){
               if (err){
