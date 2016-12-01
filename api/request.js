@@ -73,7 +73,7 @@ module.exports.accept = function(req, res, next){
 
       User.update(
         {_id: fromId},
-        {$pull: { received: {_id: toId}}},
+        {$pull: { 'received': {id: to}}},
         {safe: true},
         function(err, resultThree){
           if (err){
@@ -81,7 +81,7 @@ module.exports.accept = function(req, res, next){
           }
           User.update(
             {_id: toId},
-            {$pull: { sent: {_id: fromId}}},
+            {$pull: { 'sent': {id: from}}},
             {safe: true},
             function(err, resultFour){
               if (err){
@@ -103,6 +103,7 @@ module.exports.accept = function(req, res, next){
                       if (err){
                         console.log(err);
                       }
+                      res.status(200).json({'message': 'Friend added'});
                     }
                   )
                 }
