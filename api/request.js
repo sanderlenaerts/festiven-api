@@ -63,6 +63,7 @@ module.exports.accept = function(req, res, next){
   findUsers(from, id, function(fromId, toId){
     removeRequests(fromId, toId, function(fromId, toId){
       addToFriends(fromId, toId);
+      res.status(200).json({'message': 'Friend was added'});
     });
   })
 }
@@ -158,6 +159,7 @@ module.exports.decline = function(req, res, next){
 
   findUsers(from, id, function(fromId, toId){
     removeRequests(fromId, toId, function(fromId, toId){
+      res.status(200).json({'message': 'Friend request was declined'});
       // Nothing to do here.
     });
   })
