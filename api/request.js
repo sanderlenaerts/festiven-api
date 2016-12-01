@@ -97,7 +97,7 @@ var removeRequests = function(fromId, toId, callback){
   console.log(toId);
   User.update(
     {_id: fromId},
-    {$pull: { "received": {"_id": toId}}},
+    {$pull: { "received": {"_id": new mongoose.Types.ObjectId(toId)}}},
     {safe: true},
     function(err, resultThree){
       if (err){
@@ -106,7 +106,7 @@ var removeRequests = function(fromId, toId, callback){
       console.log("Request removed from first user");
       User.update(
         {_id: toId},
-        {$pull: { "sent": {"_id": fromId}}},
+        {$pull: { "sent": {"_id": new mongoose.Types.ObjectId(fromId)}}},
         {safe: true},
         function(err, resultFour){
           if (err){
@@ -114,8 +114,7 @@ var removeRequests = function(fromId, toId, callback){
           }
           console.log("Request removed from second user");
           callback(fromId, toId);
-        }
-      );
+        });
     });
 
 
