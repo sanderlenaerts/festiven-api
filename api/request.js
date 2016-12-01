@@ -54,9 +54,11 @@ module.exports.send = function(req, res, next){
 
 module.exports.accept = function(req, res, next){
   var from = req.body.from;
-  var id = req.body.id;
+  var id = req.body.accept_id;
 
   // Get the objects
+
+
 
   findUsers(from, id, function(fromId, toId){
     removeRequests(fromId, toId, function(fromId, toId){
@@ -151,8 +153,8 @@ var addToFriends = function(fromId, toId){
 
 
 module.exports.decline = function(req, res, next){
-  var from = req.body.origin;
-  var to = req.body.to;
+  var from = req.body.from;
+  var to = req.body.decline_id;
 
   findUsers(from, id, function(fromId, toId){
     removeRequests(fromId, toId, function(fromId, toId){
