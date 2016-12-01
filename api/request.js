@@ -54,7 +54,7 @@ module.exports.send = function(req, res, next){
 
 module.exports.accept = function(req, res, next){
   var from = req.body.from;
-  var id = req.body.id;
+  var id = req.body.accept_id;
 
   // Get the objects
   var fromId = null;
