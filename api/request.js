@@ -76,17 +76,15 @@ var findUsers = function(from, to, callback){
     }
     console.log("Found first user");
     fromId = resultOne._id;
+    User.findOne({id: to}, function(err, resultTwo){
+      if (err){
+        console.log(err);
+      }
+      console.log("Found second user");
+      toId = resultTwo._id;
+      callback(fromId, toId);
+    });
   });
-
-  User.findOne({id: to}, function(err, resultTwo){
-    if (err){
-      console.log(err);
-    }
-    console.log("Found second user");
-    toId = resultTwo._id;
-  });
-
-  callback(fromId, toId);
 }
 
 var removeRequests = function(fromId, toId, callback){
