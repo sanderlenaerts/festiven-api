@@ -54,26 +54,30 @@ module.exports.send = function(req, res, next){
 
 module.exports.accept = function(req, res, next){
   var from = req.body.from;
-  var id = req.body.accept_id;
+  var to = req.body.accept_id;
 
   // Get the objects
   var fromId = null;
   var toId = null;
+  var fromUser = "";
+  var toUser = "";
 
   User.findOne({id: from}, function(err, resultOne){
     if (err){
       console.log(err);
     }
+    fromUser = resultOne.name;
     fromId = resultOne._id;
-    User.findOne({id: id}, function(err, resultTwo){
+    User.findOne({id: to}, function(err, resultTwo){
       if (err){
         console.log(err);
       }
+      toUser = resultTwo.name;
       toId = resultTwo._id;
 
       User.update(
         {_id: fromId},
-        {$pull: { 'received': {id: to}}},
+        {$pull: { 'received': {name: toUser}}},
         {safe: true},
         function(err, resultThree){
           if (err){
@@ -81,7 +85,7 @@ module.exports.accept = function(req, res, next){
           }
           User.update(
             {_id: toId},
-            {$pull: { 'sent': {id: from}}},
+            {$pull: { 'sent': {name: fromUser}}},
             {safe: true},
             function(err, resultFour){
               if (err){
