@@ -95,18 +95,18 @@ var removeRequests = function(fromId, toId, callback){
   console.log("Callback is removing request");
   console.log(fromId);
   console.log(toId);
-  User.update(
-    {_id: fromId},
-    {$pull: { "received": {"_id":  mongoose.Schema.ObjectId('"' + toId + '"')}}},
+  User.findByIdAndUpdate(
+    fromId,
+    {$pull: { "received": {"_id": toId}}},
     {safe: true},
     function(err, resultThree){
       if (err){
         console.log(err);
       }
       console.log("Request removed from first user");
-      User.update(
-        {_id: toId},
-        {$pull: { "sent": {"_id":  mongoose.Schema.ObjectId('"' + fromId + '"')}}},
+      User.findByIdAndUpdate(
+        toId,
+        {$pull: { "sent": {"_id": fromId}}},
         {safe: true},
         function(err, resultFour){
           if (err){
