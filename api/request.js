@@ -79,20 +79,22 @@ module.exports.accept = function(req, res, next){
       console.log(toId);
       User.update(
         {name: fromName},
-        {$pull: { 'received': {_id: mongoose.Schema.Types.ObjectId(toId)}}},
+        {$pull: { 'received': {_id: toId}}},
         {safe: true},
         function(err, resultThree){
           if (err){
             console.log(err);
           }
+          console.log(resultThree);
           User.update(
             {name: toName},
-            {$pull: { 'sent': {_id: mongoose.Schema.Types.ObjectId(fromId)}}},
+            {$pull: { 'sent': {_id: fromId}}},
             {safe: true},
             function(err, resultFour){
               if (err){
                 console.log(err);
               }
+              console.log(resultFour);
               User.update(
                 {_id: toId},
                 { $addToSet: { friends: {_id: fromId}}},
