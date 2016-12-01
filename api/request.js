@@ -77,51 +77,60 @@ module.exports.accept = function(req, res, next){
       toName = resultTwo.name;
       toId = resultTwo._id;
       console.log(toId);
-      User.update(
-        {name: fromName},
-        {$pull: { 'received': {_id: toId}}},
-        {safe: true},
-        function(err, resultThree){
-          if (err){
-            console.log(err);
-          }
-          console.log(resultThree);
-          User.update(
-            {name: toName},
-            {$pull: { 'sent': {_id: fromId}}},
-            {safe: true},
-            function(err, resultFour){
-              if (err){
-                console.log(err);
-              }
-              console.log(resultFour);
-              User.update(
-                {_id: toId},
-                { $addToSet: { friends: {_id: fromId}}},
-                {safe: true},
-                function(err, resultFour){
-                  if (err){
-                    console.log(err);
-                  }
-                  User.update(
-                    {_id: fromId},
-                    {$addToSet: { friends: {_id: toId}}},
-                    {safe: true},
-                    function(err, resultFour){
-                      if (err){
-                        console.log(err);
-                      }
-                      res.status(200).json({'message': 'Friend added'});
-                    }
-                  )
-                }
-              );
+
+
+        User.update(
+          {name: fromName},
+          {$pull: { 'received': {_id: toId}}},
+          {safe: true},
+          function(err, resultThree){
+            if (err){
+              console.log(err);
             }
-          )
-        })
+            console.log(resultThree);
+
+          })
+
+        User.update(
+          {name: toName},
+          {$pull: { 'sent': {_id: fromId}}},
+          {safe: true},
+          function(err, resultFour){
+            if (err){
+              console.log(err);
+            }
+            console.log(resultFour);
+
+          }
+        )
+
+        User.update(
+          {_id: toId},
+          { $addToSet: { friends: {_id: fromId}}},
+          {safe: true},
+          function(err, resultFour){
+            if (err){
+              console.log(err);
+            }
+
+          }
+        );
+
+        User.update(
+          {_id: fromId},
+          {$addToSet: { friends: {_id: toId}}},
+          {safe: true},
+          function(err, resultFour){
+            if (err){
+              console.log(err);
+            }
+            res.status(200).json({'message': 'Friend added'});
+          }
+        )
+
+
     })
   })
-
 
 
   // Put each other in friends
