@@ -79,57 +79,30 @@ module.exports.accept = function(req, res, next){
       console.log(toId);
 
 
-        User.update(
+        User.findOneAndUpdate(
           {name: fromName},
           {$pull: { 'received': {_id: toId}}},
-          {safe: true},
-          function(err, resultThree){
-            if (err){
-              console.log(err);
-            }
-            console.log(resultThree);
+          {safe: true}).exec();
 
-          })
-
-        User.update(
+        User.findOneAndUpdate(
           {name: toName},
           {$pull: { 'sent': {_id: fromId}}},
-          {safe: true},
-          function(err, resultFour){
-            if (err){
-              console.log(err);
-            }
-            console.log(resultFour);
+          {safe: true}
+        ).exec();
 
-          }
-        )
-
-        User.update(
+        User.findOneAndUpdate(
           {_id: toId},
           { $addToSet: { friends: {_id: fromId}}},
-          {safe: true},
-          function(err, resultFour){
-            if (err){
-              console.log(err);
-            }
+          {safe: true}
+        ).exec();
 
-          }
-        );
-
-        User.update(
+        User.findOneAndUpdate(
           {_id: fromId},
           {$addToSet: { friends: {_id: toId}}},
-          {safe: true},
-          function(err, resultFour){
-            if (err){
-              console.log(err);
-            }
-            res.status(200).json({'message': 'Friend added'});
-          }
-        )
-
-
+          {safe: true}
+        ).exec();
     })
+    res.status(200).json({'message': 'Friend added'});
   })
 
 
