@@ -81,24 +81,24 @@ module.exports.accept = function(req, res, next){
 
         User.findOneAndUpdate(
           {name: fromName},
-          {$pull: { 'received': {_id: toId}}},
+          {$pull: { 'received': toId}},
           {safe: true}).exec();
 
         User.findOneAndUpdate(
           {name: toName},
-          {$pull: { 'sent': {_id: fromId}}},
+          {$pull: { 'sent': fromId}},
           {safe: true}
         ).exec();
 
         User.findOneAndUpdate(
           {_id: toId},
-          { $addToSet: { friends: {_id: fromId}}},
+          { $addToSet: { friends: fromId}},
           {safe: true}
         ).exec();
 
         User.findOneAndUpdate(
           {_id: fromId},
-          {$addToSet: { friends: {_id: toId}}},
+          {$addToSet: { friends: toId}},
           {safe: true}
         ).exec();
     })
