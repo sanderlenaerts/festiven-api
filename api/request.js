@@ -103,20 +103,22 @@ var removeRequests = function(fromId, toId, callback){
         console.log(err);
       }
       console.log("Request removed from first user");
-    });
-    User.update(
-      {_id: toId},
-      {$pull: { sent: {_id: fromId}}},
-      {safe: true},
-      function(err, resultFour){
-        if (err){
-          console.log(err);
+      User.update(
+        {_id: toId},
+        {$pull: { sent: {_id: fromId}}},
+        {safe: true},
+        function(err, resultFour){
+          if (err){
+            console.log(err);
+          }
+          console.log("Request removed from second user");
+          callback(fromId, toId);
         }
-        console.log("Request removed from second user");
-      }
-    );
+      );
+    });
 
-    callback(fromId, toId);
+
+
 }
 
 var addToFriends = function(fromId, toId){
@@ -133,19 +135,20 @@ var addToFriends = function(fromId, toId){
         console.log(err);
       }
       console.log("Friends was added to user one");
+      User.update(
+        {_id: fromId},
+        {$addToSet: { friends: {_id: toId}}},
+        {safe: true},
+        function(err, resultFour){
+          if (err){
+            console.log(err);
+          }
+          console.log("Friends was added to user two");
+        })
 
     }
   );
-  User.update(
-    {_id: fromId},
-    {$addToSet: { friends: {_id: toId}}},
-    {safe: true},
-    function(err, resultFour){
-      if (err){
-        console.log(err);
-      }
-      console.log("Friends was added to user two");
-    })
+
 }
 
 
