@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 // Facebook register
-module.exports.register = function(req, res, next){
+module.exports.register = function(req, res, next) {
   console.log('Creating user object');
   var user = new User();
 
@@ -14,7 +14,7 @@ module.exports.register = function(req, res, next){
   user.id = req.body.id;
 
   // Check whether the user already exists
-  User.findOne({id: user.id}, function(err, result){
+  User.findOne({id: user.id}, function(err, result) {
     if(err) {
       console.log(err);
     } else if(result) {
