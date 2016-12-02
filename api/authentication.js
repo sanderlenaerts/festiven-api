@@ -1,7 +1,8 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-//Facebook register
+
+// Facebook register
 module.exports.register = function(req, res, next){
   console.log('Creating user object');
   var user = new User();
@@ -12,34 +13,27 @@ module.exports.register = function(req, res, next){
   user.name = req.body.name;
   user.id = req.body.id;
 
-  // Check if user already exists
+  // Check whether the user already exists
   User.findOne({id: user.id}, function(err, result){
-    if (err){
+    if(err) {
       console.log(err);
-    }
-    else if (result){
+    } else if(result) {
       console.log("User already created");
       // User already exists, so we do nothing
-      res.status(200).json({'message': 'Account was already there'});
-    }
-    else {
-      // Create account
-
+      res.status(200).json({'message': 'Account already exists'});
+    } else {
+      // Create a new account
       console.log('Saving new user');
-      user.save(function(err){
-        console.log('Trying to persist to mongodb')
-        if (err){
+      user.save(function(err) {
+        console.log('Trying to persist to MongoDB')
+        if(err) {
           console.log(err);
           next(err);
-        }
-        else {
+        } else {
           console.log("User registered");
           res.status(201).json({'message': 'Account was succesfully created'});
         }
       })
     }
   })
-
-
-
 }
