@@ -25,6 +25,7 @@
     "mongoose": "^4.6.8",
     "mongoose-schema-extend": "0.2.0",
     "request": "^2.79.0",
+    "request-json": "^0.6.1",
     "socket.io": "^1.7.1"
   }
 }

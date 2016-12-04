@@ -1,5 +1,6 @@
 
-var request = require("request");
+var request = require("request-json");
+var requestClient = request.createClient('http://localhost:8080/');
 var clients = {};
 
 module.exports = function (socket) {
@@ -19,15 +20,18 @@ module.exports = function (socket) {
         console.log("fb-id: " + data.customId);
 
         // Save the fb-ids in friends
-        request.post('http://localhost:3000/api/user/friends', {form: {id: data.customId}}, function(err,httpResponse,body){
+        requestClient.post('api/user/friends', {id: data.customId}, function(err, res, body){
           console.log(body);
           clientInfo.friends = [];
 
           // For every friend, save the fb id in the clientinfo
-          body.forEach(function(item){
+          for (var i = 0; i < body.length; i++){
+            var item = body[i];
             clientInfo.friends.push(item.id);
-          })
-        });
+          }
+        })
+
+
 
         clients[data.customId] = clientInfo;
 
