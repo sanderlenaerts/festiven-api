@@ -9,6 +9,8 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+io.sockets.on('connection', require('./socket'));
+
 var PORT = process.env.PORT || 8080;
 
 require('./socket');

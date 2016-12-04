@@ -1,9 +1,8 @@
 
 var request = require("request");
-
 var clients = {};
 
-io.sockets.on('connection', function (socket) {
+module.exports = function (socket) {
 
     // Emit connect event to the socket
     // This event on client side will emit an event to the server (here) of storeClientInfo
@@ -33,12 +32,12 @@ io.sockets.on('connection', function (socket) {
         clients[data.customId] = clientInfo;
 
         console.log(clients);
-    });
+    })
 
     socket.on('add-friend', function(data){
       // Push the new friend to the friends
       socket.clientInfo.friends.push(data.id);
-    });
+    })
 
     socket.on('disconnect', function (data) {
 
@@ -50,6 +49,5 @@ io.sockets.on('connection', function (socket) {
           }
         }
       }
-    });
-
-});
+    })
+}
