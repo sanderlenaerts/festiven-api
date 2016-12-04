@@ -24,5 +24,5 @@ var markerSchema = new mongoose.Schema({
 
 });
 
-// Export the created models so they're accessible by name through mongoose
+// Export the created models so they're accessible by name through Mongoose
 mongoose.model('Marker', markerSchema)
