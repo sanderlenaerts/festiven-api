@@ -1,6 +1,4 @@
-var server = require('http').createServer();
-var io = require('socket.io')(server);
-var http = require('http');
+
 var request = require("request");
 
 var clients = {};
@@ -22,7 +20,7 @@ io.sockets.on('connection', function (socket) {
         console.log("fb-id: " + data.customId);
 
         // Save the fb-ids in friends
-        request.post('http://localhost:3000/api/user/friends', form: {id: data.customId}, function(err,httpResponse,body){
+        request.post('http://localhost:3000/api/user/friends', {form: {id: data.customId}}, function(err,httpResponse,body){
           console.log(body);
           clientInfo.friends = [];
 

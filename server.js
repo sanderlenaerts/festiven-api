@@ -9,15 +9,18 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8080;
 
-require('.socket');
+require('./socket');
 require('./db');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: true
+}));
 
 app.options('*', cors());
 
@@ -39,6 +42,6 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(PORT, function(){
+http.listen(PORT, function(){
   console.log('Server listening on port ' + PORT )
 });
