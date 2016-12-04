@@ -2,11 +2,17 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
-require('.socket');
-require('./db');
+
+
+
 var app = express();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 var PORT = process.env.PORT || 3000;
+
+require('.socket');
+require('./db');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +23,7 @@ app.options('*', cors());
 
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
