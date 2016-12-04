@@ -3,10 +3,9 @@ var request = require("request-json");
 var requestClient = request.createClient('http://localhost:8080/');
 var clients = {};
 
-module.exports = function (options) {
+module.exports = function (io) {
 
-    var socket = options.socket;
-    var io = options.io;
+  io.sockets.on('connection', function(socket){
 
     // Emit connect event to the socket
     // This event on client side will emit an event to the server (here) of storeClientInfo
@@ -73,4 +72,5 @@ module.exports = function (options) {
         }
       }
     })
+  });
 }

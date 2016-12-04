@@ -8,12 +8,9 @@ var cors = require('cors');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var socket =  require('./socket');
 
-var options = {};
-options.socket = socket;
-options.io = io;
-
-io.sockets.on('connection', require('./socket')(options));
+socket(io);
 
 var PORT = process.env.PORT || 8080;
 
