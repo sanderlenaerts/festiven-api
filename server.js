@@ -13,7 +13,7 @@ io.sockets.on('connection', require('./socket'));
 
 var PORT = process.env.PORT || 8080;
 
-require('./socket');
+//require('./socket');
 require('./db');
 
 
