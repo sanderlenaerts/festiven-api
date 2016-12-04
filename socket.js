@@ -29,13 +29,14 @@ module.exports = function (socket) {
             var item = body[i];
             clientInfo.friends.push(item.id);
           }
+          clients[data.customId] = clientInfo;
+
+          console.log(clients);
         })
 
 
 
-        clients[data.customId] = clientInfo;
 
-        console.log(clients);
     })
 
     socket.on('add-friend', function(data){
