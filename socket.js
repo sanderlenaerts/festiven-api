@@ -3,12 +3,30 @@ var request = require("request-json");
 var requestClient = request.createClient('http://localhost:8080/');
 var clients = {};
 
-module.exports = function (socket) {
+module.exports = function (options) {
+
+    var socket = options.socket;
+    var io = options.io;
 
     // Emit connect event to the socket
     // This event on client side will emit an event to the server (here) of storeClientInfo
     console.log('Connection');
     socket.emit('connect', {});
+
+    socket.on('sendLocation', function(data){
+      var friends = clients[data.id].friends;
+      for (var i = 0; i < friends.length; i++){
+        // Get the socketid out of the list of clients with help of fb id
+        var socketid = clients[friends[i]].clientId;
+        if (io.sockets.connected[socketid]) {
+          // Emit to the friend the data
+          // Data contains fb id of user and location data
+          io.sockets.connected[socketid].emit(data);
+        }
+      }
+
+
+    })
 
     socket.on('storeClientInfo', function (data) {
         console.log('Storing client info');

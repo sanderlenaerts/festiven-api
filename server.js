@@ -9,7 +9,11 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-io.sockets.on('connection', require('./socket'));
+var options = {};
+options.socket = socket;
+options.io = io;
+
+io.sockets.on('connection', require('./socket')(options));
 
 var PORT = process.env.PORT || 8080;
 
