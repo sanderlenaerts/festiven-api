@@ -5,13 +5,28 @@ var ctrlAuth = require('./authentication');
 var ctrlReq = require('./request');
 var ctrlUser = require('./user');
 
-router.post('/register', ctrlAuth.register);
-router.post('/addrequest', ctrlReq.send);
-router.post('/acceptrequest', ctrlReq.accept);
-router.post('/declinerequest', ctrlReq.decline);
+router.post('/users', ctrlAuth.register);
 
-router.post('/user/sent', ctrlUser.getSent);
-router.post('/user/received', ctrlUser.getReceived);
-router.post('/user/friends', ctrlUser.getFriends);
+router.post('/users/:fbid/sent', ctrlReq.send);
+router.post('/users/:fbid/friends', ctrlReq.accept);
+router.delete('/users/:fbid/received', ctrlReq.decline);
+
+// Turn into get with parameter in URI
+router.get('/users/:fbid/sent', ctrlUser.getSent);
+router.get('/users/:fbid/received', ctrlUser.getReceived);
+router.get('/users/:fbid/friends', ctrlUser.getFriends);
 
 module.exports = router;
+
+
+
+
+
+// router.post('/addrequest', ctrlReq.send);
+// router.post('/acceptrequest', ctrlReq.accept);
+// router.post('/declinerequest', ctrlReq.decline);
+//
+// Turn into get with parameter in URI
+// router.post('/user/sent', ctrlUser.getSent);
+// router.post('/user/received', ctrlUser.getReceived);
+// router.post('/user/friends', ctrlUser.getFriends);

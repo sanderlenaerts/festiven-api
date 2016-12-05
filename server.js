@@ -29,7 +29,7 @@ app.options('*', cors());
 
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8100");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });

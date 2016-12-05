@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 module.exports.send = function(req, res, next) {
-  var from = req.body.origin;
+  var from = req.params.fbid;
   var to = req.body.to;
 
   // Search the database for the user sending the request
@@ -46,7 +46,7 @@ module.exports.send = function(req, res, next) {
 } // End send
 
 module.exports.accept = function(req, res, next) {
-  var from = req.body.from;
+  var from = req.params.fbid;
   var to = req.body.accept_id;
 
   // Get the objects
@@ -98,7 +98,7 @@ module.exports.accept = function(req, res, next) {
 }
 
 module.exports.decline = function(req, res, next) {
-  var from = req.body.origin;
-  var to = req.body.to;
+  var from = req.params.fbid;
+  var to = req.body.decline_id;
   // Remove from sent and received
 }

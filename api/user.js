@@ -4,7 +4,7 @@ var User = mongoose.model('User');
 
 module.exports.getSent = function(req, res, next) {
   console.log('getSent');
-  var id = req.body.id;
+  var id = req.params.fbid;
   console.log(id);
 
   User
@@ -20,7 +20,7 @@ module.exports.getSent = function(req, res, next) {
 
 module.exports.getReceived = function(req, res, next) {
   console.log('getSent');
-  var id = req.body.id;
+  var id = req.params.fbid;
   console.log(id);
 
   User
@@ -35,7 +35,7 @@ module.exports.getReceived = function(req, res, next) {
 }
 
 module.exports.getFriends = function(req, res, next) {
-  var id = req.body.id;
+  var id = req.params.fbid;
 
   User
   .findOne({ id: id })
