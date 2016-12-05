@@ -10,7 +10,7 @@ router.post('/users', ctrlAuth.register);
 router.post('/users/:fbid/sent', ctrlReq.send);
 router.post('/users/:fbid/friends', ctrlReq.accept);
 router.delete('/users/:fbid/received/:friendid', ctrlReq.decline);
-router.delete('users/:fbid/sent/:friendid/', ctrlReq.cancel);
+router.delete('/users/:fbid/sent/:friendid/', ctrlReq.cancel);
 
 // Turn into get with parameter in URI
 router.get('/users/:fbid/sent', ctrlUser.getSent);

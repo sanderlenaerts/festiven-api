@@ -141,7 +141,7 @@ module.exports.decline = function(req, res, next) {
 
 module.exports.cancel = function(req, res, next){
   var from = req.params.fbid;
-  var to = req.body.friendid;
+  var to = req.params.friendid;
   // Remove from sent and received
 
   // Get the objects
