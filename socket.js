@@ -37,13 +37,14 @@ module.exports = function (io) {
         console.log("fb-id: " + data.customId);
 
         // Save the fb-ids in friends
-        requestClient.post('api/user/friends', {id: data.customId}, function(err, res, body){
+        requestClient.post('api/users/' + data.customId + '/friends', function(err, res, body){
           console.log(body);
           clientInfo.friends = [];
 
           // For every friend, save the fb id in the clientinfo
           for (var i = 0; i < body.length; i++){
             var item = body[i];
+            console.log(item);
             clientInfo.friends.push(item.id);
           }
           clients[data.customId] = clientInfo;
