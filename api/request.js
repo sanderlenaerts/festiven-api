@@ -99,7 +99,7 @@ module.exports.accept = function(req, res, next) {
 
 module.exports.decline = function(req, res, next) {
   var from = req.params.fbid;
-  var to = req.body.decline_id;
+  var to = req.params.friendid;
   // Remove from sent and received
 
   // Get the objects
@@ -139,9 +139,9 @@ module.exports.decline = function(req, res, next) {
   })
 }
 
-module.exports.cancelRequest = function(req, res, next){
+module.exports.cancel = function(req, res, next){
   var from = req.params.fbid;
-  var to = req.body.cancel_id;
+  var to = req.body.friendid;
   // Remove from sent and received
 
   // Get the objects
