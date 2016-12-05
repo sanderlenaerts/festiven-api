@@ -101,4 +101,83 @@ module.exports.decline = function(req, res, next) {
   var from = req.params.fbid;
   var to = req.body.decline_id;
   // Remove from sent and received
+
+  // Get the objects
+  var fromId = null;
+  var toId = null;
+  var fromUser = "";
+  var toUser = "";
+
+  User.findOne({id: from}, function(err, resultOne) {
+    if (err){
+      console.log(err);
+    }
+    fromName = resultOne.name;
+    fromId = resultOne._id;
+    console.log(fromId);
+
+    User.findOne({id: to}, function(err, resultTwo) {
+      if(err) {
+        console.log(err);
+      }
+      toName = resultTwo.name;
+      toId = resultTwo._id;
+      console.log(toId);
+
+      User.findOneAndUpdate(
+        {name: fromName},
+        {$pull: {'received': toId}},
+        {safe: true}).exec();
+
+      User.findOneAndUpdate(
+        {name: toName},
+        {$pull: {'sent': fromId}},
+        {safe: true}).exec();
+
+    })
+    res.status(200).json({'message': 'Friend request declined'});
+  })
+}
+
+module.exports.cancelRequest = function(req, res, next){
+  var from = req.params.fbid;
+  var to = req.body.cancel_id;
+  // Remove from sent and received
+
+  // Get the objects
+  var fromId = null;
+  var toId = null;
+  var fromUser = "";
+  var toUser = "";
+
+  User.findOne({id: from}, function(err, resultOne) {
+    if (err){
+      console.log(err);
+    }
+    fromName = resultOne.name;
+    fromId = resultOne._id;
+    console.log(fromId);
+
+    User.findOne({id: to}, function(err, resultTwo) {
+      if(err) {
+        console.log(err);
+      }
+      toName = resultTwo.name;
+      toId = resultTwo._id;
+      console.log(toId);
+
+      User.findOneAndUpdate(
+        {name: fromName},
+        {$pull: {'sent': toId}},
+        {safe: true}).exec();
+
+      User.findOneAndUpdate(
+        {name: toName},
+        {$pull: {'received': fromId}},
+        {safe: true}).exec();
+
+    })
+    res.status(200).json({'message': 'Friend request canceled'});
+  })
+
 }
