@@ -48,18 +48,36 @@ module.exports = function (io) {
             clientInfo.friends.push(item.id);
           }
           clients[data.customId] = clientInfo;
-
           console.log(clients);
         })
-
-
-
-
     })
 
     socket.on('add-friend', function(data){
       // Push the new friend to the friends
-      socket.clientInfo.friends.push(data.id);
+      var myId = data.myId;
+      var id = data.id;
+
+      clients[myId].friends.push(id);
+      clients[id].friends.push(myId);
+    })
+
+    socket.on('delete-friend', function(data){
+
+      // Push the new friend to the friends
+      var myId = data.myId;
+      var id = data.id;
+
+      var index = clients[myId].friends.indexOf(id);
+
+      if (index > -1) {
+          array.splice(index, 1);
+      }
+
+      index = clients[id].friends.indexOf(myId);
+
+      if (index > -1) {
+          array.splice(index, 1);
+      }
     })
 
     socket.on('disconnect', function (data) {
