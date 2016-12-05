@@ -52,22 +52,40 @@ module.exports.deleteFriend = function(req, res, next){
   var fbid = req.params.fbid;
   var friendid = req.params.friendid;
 
-  User.findOne({id: friendid}, function(err, result){
+  User.findOne({id: fbid}, function(err, resultOne){
     if (err){
       console.log(err);
       next(err);
     }
 
-    User.findOneAndUpdate(
-      {id: fbid},
-      {$pull: {'friends': result._id}},
-      {safe: true}, function(err, result){
-        if (err){
-          console.log(err);
-          next(err);
-        }
-        res.status(200).json({'message': 'Friend succesfully deleted'});
-      })
+    User.findOne({id: friendid}, function(err, resultTwo){
+      if (err){
+        console.log(err);
+        next(err);
+      }
+
+      User.findOneAndUpdate(
+        {id: fbid},
+        {$pull: {'friends': resultTwo._id}},
+        {safe: true}, function(err, result){
+          if (err){
+            console.log(err);
+            next(err);
+          }
+          User.findOneAndUpdate(
+            {id: friendid},
+            {$pull: {'friends': resultOne._id}},
+            {safe: true}, function(err, result){
+              if (err){
+                console.log(err);
+                next(err);
+              }
+              res.status(200).json({'message': 'Friend succesfully deleted'});
+            })
+        })
+    })
+
+
   })
 
 
