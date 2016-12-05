@@ -15,6 +15,8 @@ router.delete('/users/:fbid/received', ctrlReq.decline);
 router.get('/users/:fbid/sent', ctrlUser.getSent);
 router.get('/users/:fbid/received', ctrlUser.getReceived);
 router.get('/users/:fbid/friends', ctrlUser.getFriends);
+router.delete('/users/:fbid/friends/:friendid', ctrlUser.deleteFriend);
+
 
 module.exports = router;
 
