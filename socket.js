@@ -20,12 +20,12 @@ module.exports = function (io) {
         console.log(data);
 
 
-        // var socketid = clients[friends[i]].clientId;
-        // if (io.sockets.connected[socketid]) {
-        //   // Emit to the friend the data
-        //   // Data contains fb id of user and location data
-        //   io.sockets.connected[socketid].emit('receive-location', data);
-        // }
+        var socketid = clients[friends[i]].clientId;
+        if (io.sockets.connected[socketid]) {
+          // Emit to the friend the data
+          // Data contains fb id of user and location data
+          io.sockets.connected[socketid].emit('receive-location', data);
+        }
       }
 
 
