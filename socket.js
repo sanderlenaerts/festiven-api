@@ -16,12 +16,16 @@ module.exports = function (io) {
       var friends = clients[data.id].friends;
       for (var i = 0; i < friends.length; i++){
         // Get the socketid out of the list of clients with help of fb id
-        var socketid = clients[friends[i]].clientId;
-        if (io.sockets.connected[socketid]) {
-          // Emit to the friend the data
-          // Data contains fb id of user and location data
-          io.sockets.connected[socketid].emit(data);
-        }
+
+        console.log(data);
+
+
+        // var socketid = clients[friends[i]].clientId;
+        // if (io.sockets.connected[socketid]) {
+        //   // Emit to the friend the data
+        //   // Data contains fb id of user and location data
+        //   io.sockets.connected[socketid].emit('receive-location', data);
+        // }
       }
 
 
@@ -63,7 +67,7 @@ module.exports = function (io) {
 
     socket.on('delete-friend', function(data){
 
-      // Push the new friend to the friends
+
       var myId = data.myId;
       var id = data.id;
 
