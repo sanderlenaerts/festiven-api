@@ -53,6 +53,7 @@ module.exports = function (io) {
           }
           clients[data.customId] = clientInfo;
           console.log(clients);
+          socket.emit('start-transmit', {});
         })
     })
 
