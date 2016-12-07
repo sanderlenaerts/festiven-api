@@ -13,22 +13,24 @@ module.exports = function (io) {
     socket.emit('connect', {});
 
     socket.on('sendLocation', function(data){
-      var friends = clients[data.id].friends;
-      for (var i = 0; i < friends.length; i++){
-        // Get the socketid out of the list of clients with help of fb id
+      if (clients.hasOwnProperty(friends[i])){
+        var friends = clients[data.id].friends;
+        for (var i = 0; i < friends.length; i++){
+          // Get the socketid out of the list of clients with help of fb id
 
-        console.log(data);
+          console.log(data);
 
-        if (clients.hasOwnProperty(friends[i])){
-          var socketid = clients[friends[i]].clientId;
-          if (io.sockets.connected[socketid]) {
-            // Emit to the friend the data
-            // Data contains fb id of user and location data
-            io.sockets.connected[socketid].emit('receive-location', data);
+          if (clients.hasOwnProperty(friends[i])){
+            var socketid = clients[friends[i]].clientId;
+            if (io.sockets.connected[socketid]) {
+              // Emit to the friend the data
+              // Data contains fb id of user and location data
+              io.sockets.connected[socketid].emit('receive-location', data);
+            }
           }
         }
-
       }
+
 
 
     })
@@ -51,7 +53,7 @@ module.exports = function (io) {
           for (var i = 0; i < body.length; i++){
             var item = body[i];
             console.log(item);
-            clientInfo.friends.push(item.id);
+            clientInfo.friends.push();
           }
           clients[data.customId] = clientInfo;
           console.log(clients);
