@@ -13,7 +13,7 @@ module.exports = function (io) {
     socket.emit('connect', {});
 
     socket.on('sendLocation', function(data){
-      if (clients.hasOwnProperty(friends[i])){
+      if (clients.hasOwnProperty(data.id)){
         var friends = clients[data.id].friends;
         for (var i = 0; i < friends.length; i++){
           // Get the socketid out of the list of clients with help of fb id
