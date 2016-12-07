@@ -53,7 +53,7 @@ module.exports = function (io) {
           for (var i = 0; i < body.length; i++){
             var item = body[i];
             console.log(item);
-            clientInfo.friends.push();
+            clientInfo.friends.push(item.id);
           }
           clients[data.customId] = clientInfo;
           console.log(clients);
