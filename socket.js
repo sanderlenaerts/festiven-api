@@ -93,7 +93,7 @@ module.exports = function (io) {
 
       for (var key in clients) {
         if (clients.hasOwnProperty(key)) {
-          if (clients[key].clientId = socket.id){
+          if (clients[key].clientId == socket.id){
             delete clients[key];
             break;
           }
