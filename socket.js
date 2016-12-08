@@ -66,8 +66,13 @@ module.exports = function (io) {
       var myId = data.myId;
       var id = data.id;
 
-      clients[myId].friends.push(id);
-      clients[id].friends.push(myId);
+      if (clients.hasOwnProperty(myId)){
+        clients[myId].friends.push(id);
+      }
+      if (clients.hasOwnProperty(id)){
+        clients[id].friends.push(myId);
+      }
+      
     })
 
     socket.on('delete-friend', function(data){
