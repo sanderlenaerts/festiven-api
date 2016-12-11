@@ -26,11 +26,14 @@ var markerSchema = new mongoose.Schema({
 markerSchema.pre('save', function(next){
 
   // We loop over all the people in the shared array, who are supposed to receive the marker and update their set of markers
-
+  console.log('Pre marker save');
   for (var i = 0; i < this.shared.length; i++){
+    console.log('Save marker id to: ', this.shared[i]);
     this.model('User').update({_id: this.shared[i]},{ $addToSet: {
       markers: this._id} }, {multi: true}, next);
   }
+
+  console.log('Finished pre marker save');
 
 });
 

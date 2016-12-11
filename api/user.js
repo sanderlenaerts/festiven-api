@@ -98,7 +98,7 @@ module.exports.addMarker = function(req, res, next) {
 
   // Find the owner by fb-id
 
-  User.find({id: fbid}, function(error, result) {
+  User.findOne({id: fbid}, function(error, result) {
     if (error){
       next(error);
     }
@@ -122,10 +122,12 @@ module.exports.addMarker = function(req, res, next) {
     // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
 
     for (var i = 0; i < people.length; i++){
-      User.find({id: people[i].id}, function(error, result) {
+      console.log('Shared with: ', people[i])
+      User.find({id: people[i]}, function(error, result) {
         if (error){
           next(error);
         }
+        console.log('Found user: ', result._id);
         marker.shared.push(result._id)
       })
     }
