@@ -21,6 +21,7 @@ router.delete('/users/:fbid/friends/:friendid', ctrlUser.deleteFriend);
 // Markers
 router.post('/users/:fbid/markers', ctrlUser.addMarker);
 router.get('/users/:fbid/markers', ctrlUser.getMarkers);
+router.delete('/users/:fbid/markers/:markerid', ctrlUser.deleteMarker)
 
 module.exports = router;
 

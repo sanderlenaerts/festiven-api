@@ -110,7 +110,7 @@ module.exports = function (io) {
 }
 
 var deleteMarkerFromFriends = function(id){
-  if (clients.hasOwnProperty(data.id)){
+  if (clients.hasOwnProperty(id)){
     var friends = clients[id].friends;
     for (var i = 0; i < friends.length; i++){
       // Get the socketid out of the list of clients with help of fb id

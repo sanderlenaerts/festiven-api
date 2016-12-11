@@ -40,5 +40,17 @@ markerSchema.pre('save', function(next){
 
 });
 
+markerSchema.post('remove', function(next){
+  this.shared.forEach(function(user_id){
+    this.model('User').update({_id: user_id},
+      {$pull: {'markers': this._id}},
+      {safe: true}, function(err, result){
+        if (err){
+          next();
+        }
+      })
+  })
+})
+
 // Export the created models so they're accessible by name through Mongoose
 mongoose.model('Marker', markerSchema)

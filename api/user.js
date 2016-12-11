@@ -166,7 +166,44 @@ module.exports.getMarkers = function(req, res, next) {
     }
     res.status(200).json(user.markers);
   });
+}
 
+module.exports.deleteMarker = function(req, res, next) {
+  var id = req.params.markerid;
+  var fbid  req.params.fbid;
+
+  var mongoId = new mongoose.Schema.Types.ObjectId(id);
+
+  Marker.findOne({_id: mongoId}, function(err, result){
+    if (err){
+      next(err);
+    }
+    User.findOne({id: fbid}, function(err, user){
+      if (err){
+        next(err);
+      }
+      if (user._id == result.owner){
+        Marker.remove({_id: mongoId}, function(err, result){
+          if (err){
+            next(err);
+          }
+          res.status(200).json({message: "Marker correctly deleted"});
+        })
+      }
+      else {
+        // Just pull the marker id from the list of markers in the user
+
+        User.update({'_id': user._id}, { $pull: { "markers" : { _id: mongoId } } }, false, true, function(err, update){
+          if (err){
+            next(err);
+          }
+          res.status(200).json({message: "Marker correctly deleted from the user"});
+        });
+
+
+      }
+    })
+  })
 
 
 }
