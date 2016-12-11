@@ -72,7 +72,7 @@ module.exports = function (io) {
       if (clients.hasOwnProperty(id)){
         clients[id].friends.push(myId);
       }
-      
+
     })
 
     socket.on('delete-friend', function(data){
@@ -99,6 +99,7 @@ module.exports = function (io) {
       for (var key in clients) {
         if (clients.hasOwnProperty(key)) {
           if (clients[key].clientId == socket.id){
+            deleteMarkerFromFriends(data.id)
             delete clients[key];
             break;
           }
@@ -106,4 +107,23 @@ module.exports = function (io) {
       }
     })
   });
+}
+
+var deleteMarkerFromFriends = function(id){
+  if (clients.hasOwnProperty(data.id)){
+    var friends = clients[id].friends;
+    for (var i = 0; i < friends.length; i++){
+      // Get the socketid out of the list of clients with help of fb id
+      console.log(data);
+
+      if (clients.hasOwnProperty(friends[i])){
+        var socketid = clients[friends[i]].clientId;
+        if (io.sockets.connected[socketid]) {
+          // Emit to the friend the data
+          // Data contains fb id of user and location data
+          io.sockets.connected[socketid].emit('delete-location', id);
+        }
+      }
+    }
+  }
 }

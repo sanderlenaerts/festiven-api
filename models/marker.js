@@ -1,7 +1,5 @@
 // Allows for schema creation in an object oriented approach
 var mongoose = require('mongoose');
-// To allow superclasses
-var extend = require('mongoose-schema-extend');
 
 var markerSchema = new mongoose.Schema({
   location: {
@@ -15,12 +13,24 @@ var markerSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Car', 'Tent'],
+    enum: ['car', 'tent', 'marker'],
   },
   shared: [{
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'User'
   }]
+
+});
+
+// Before we save a marker, add it to the
+markerSchema.pre('save', function(next){
+
+  // We loop over all the people in the shared array, who are supposed to receive the marker and update their set of markers
+
+  for (var i = 0; i < this.shared.length; i++){
+    this.model('User').update({_id: this.shared[i]},{ $addToSet: {
+      markers: this._id} }, {multi: true}, next);
+  }
 
 });
 

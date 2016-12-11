@@ -18,6 +18,9 @@ router.get('/users/:fbid/received', ctrlUser.getReceived);
 router.get('/users/:fbid/friends', ctrlUser.getFriends);
 router.delete('/users/:fbid/friends/:friendid', ctrlUser.deleteFriend);
 
+// Markers
+router.post('/users/:fbid/markers', ctrlUser.addMarker);
+router.get('/users/:fbid/markers', ctrlUser.getMarkers);
 
 module.exports = router;
 

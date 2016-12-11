@@ -84,9 +84,78 @@ module.exports.deleteFriend = function(req, res, next){
             })
         })
     })
-
-
   })
+}
+
+module.exports.addMarker = function(req, res, next) {
+  var id = req.params.fbid;
+  var people = req.body.people;
+  var coords = req.body.location;
+  var markerType = req.body.markerType;
+
+  var marker = new Marker();
+
+  // Find the owner by fb-id
+
+  User.find({id: id}, function(error, result) {
+    if (error){
+      next(error);
+    }
+
+    // Set the coordinates
+    marker.location[0] = coords.lat;
+    marker.location[1] = coords.lng;
+
+    // Set the type of the marker
+    marker.type = markerType;
+
+    // Set the owner of the marker
+    marker.owner = result._id;
+
+    // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
+
+    for (var i = 0; i < people.length; i++){
+      User.find({id: id}, function(error, result) {
+        if (error){
+          next(error);
+        }
+        marker.shared.push(result._id)
+      })
+    }
+
+    marker.save(function(err) {
+      console.log('Trying to persist marker to MongoDB')
+      if(err) {
+        console.log(err);
+        next(err);
+      } else {
+        console.log("Marker added");
+        res.status(201).json({'message': 'Marker was succesfully created'});
+      }
+    })
+  })
+}
+
+module.exports.getMarkers = function(req, res, next) {
+  var id = req.params.fbid;
+
+  User
+  .findOne({ id: id })
+  .populate({
+    path: 'markers',
+    model: 'Marker',
+    populate: [{
+      path: 'owner',
+      model: 'User'
+    }, path: 'shared', model: 'User']
+  })
+  .exec(function (err, user) {
+    if(err) {
+      console.log(err);
+    }
+    res.status(200).json(user.markers);
+  });
+
 
 
 }
