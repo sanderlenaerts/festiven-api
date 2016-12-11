@@ -33,6 +33,9 @@ markerSchema.pre('save', function(next){
       markers: this._id} }, {multi: true}, next);
   }
 
+  this.model('User').update({_id: this.owner},{ $addToSet: {
+    markers: this._id} }, {multi: true}, next);
+
   console.log('Finished pre marker save');
 
 });

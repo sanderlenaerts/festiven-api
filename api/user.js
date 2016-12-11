@@ -105,6 +105,19 @@ module.exports.addMarker = function(req, res, next) {
     console.log("Fb: ", fbid);
     console.log("Mongo: ", result._id);
 
+    // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
+
+    for (var i = 0; i < people.length; i++){
+      console.log('Shared with: ', people[i])
+      User.findOne({id: people[i]}, function(error, result) {
+        if (error){
+          next(error);
+        }
+        console.log('Found user: ', result._id);
+        marker.shared.push(result._id)
+      })
+    }
+
 
     // Set the coordinates
     var coordsArray = [];
@@ -119,18 +132,7 @@ module.exports.addMarker = function(req, res, next) {
     // Set the owner of the marker
     marker.owner = result._id;
 
-    // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
 
-    for (var i = 0; i < people.length; i++){
-      console.log('Shared with: ', people[i])
-      User.find({id: people[i]}, function(error, result) {
-        if (error){
-          next(error);
-        }
-        console.log('Found user: ', result._id);
-        marker.shared.push(result._id)
-      })
-    }
 
     marker.save(function(err) {
       console.log('Trying to persist marker to MongoDB')
