@@ -23,7 +23,7 @@ var markerSchema = new mongoose.Schema({
 });
 
 // Before we save a marker, add it to the
-markerSchema.pre('save', function(next){
+markerSchema.post('save', function(next){
 
   // We loop over all the people in the shared array, who are supposed to receive the marker and update their set of markers
   console.log('Pre marker save');
@@ -40,7 +40,7 @@ markerSchema.pre('save', function(next){
 
 });
 
-markerSchema.post('remove', function(next){
+markerSchema.pre('remove', function(next){
   this.shared.forEach(function(user_id){
     this.model('User').update({_id: user_id},
       {$pull: {'markers': this._id}},

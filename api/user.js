@@ -170,7 +170,7 @@ module.exports.getMarkers = function(req, res, next) {
 
 module.exports.deleteMarker = function(req, res, next) {
   var id = req.params.markerid;
-  var fbid  req.params.fbid;
+  var fbid = req.params.fbid;
 
   var mongoId = new mongoose.Schema.Types.ObjectId(id);
 
