@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Marker = mongoose.model('Marker');
 
 module.exports.getSent = function(req, res, next) {
   console.log('getSent');
@@ -88,7 +89,7 @@ module.exports.deleteFriend = function(req, res, next){
 }
 
 module.exports.addMarker = function(req, res, next) {
-  var id = req.params.fbid;
+  var fbid = req.params.fbid;
   var people = req.body.people;
   var coords = req.body.location;
   var markerType = req.body.markerType;
@@ -97,14 +98,20 @@ module.exports.addMarker = function(req, res, next) {
 
   // Find the owner by fb-id
 
-  User.find({id: id}, function(error, result) {
+  User.find({id: fbid}, function(error, result) {
     if (error){
       next(error);
     }
+    console.log("Fb: ", fbid);
+    console.log("Mongo: ", result._id);
+
 
     // Set the coordinates
-    marker.location[0] = coords.lat;
-    marker.location[1] = coords.lng;
+    var coordsArray = [];
+    coordsArray.push(coords.lat);
+    coordsArray.push(coords.lng);
+
+    marker.location = coordsArray;
 
     // Set the type of the marker
     marker.type = markerType;
@@ -115,7 +122,7 @@ module.exports.addMarker = function(req, res, next) {
     // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
 
     for (var i = 0; i < people.length; i++){
-      User.find({id: id}, function(error, result) {
+      User.find({id: people[i].id}, function(error, result) {
         if (error){
           next(error);
         }
@@ -147,7 +154,7 @@ module.exports.getMarkers = function(req, res, next) {
     populate: [{
       path: 'owner',
       model: 'User'
-    }, path: 'shared', model: 'User']
+    }, {path: 'shared', model: 'User'}]
   })
   .exec(function (err, user) {
     if(err) {
