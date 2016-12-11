@@ -107,43 +107,56 @@ module.exports.addMarker = function(req, res, next) {
 
     // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
 
-    for (var i = 0; i < people.length; i++){
-      console.log('Shared with: ', people[i])
-      User.findOne({id: people[i]}, function(error, result) {
-        if (error){
-          next(error);
-        }
-        console.log('Found user: ', result._id);
-        marker.shared.push(result._id)
-      })
-    }
-
-
-    // Set the coordinates
-    var coordsArray = [];
-    coordsArray.push(coords.lat);
-    coordsArray.push(coords.lng);
-
-    marker.location = coordsArray;
-
-    // Set the type of the marker
-    marker.type = markerType;
-
-    // Set the owner of the marker
-    marker.owner = result._id;
-
-
-
-    marker.save(function(err) {
-      console.log('Trying to persist marker to MongoDB')
-      if(err) {
-        console.log(err);
+    User.find({id: { $in: people }}, function(err, peopleArr){
+      if (err){
         next(err);
-      } else {
-        console.log("Marker added");
-        res.status(201).json({'message': 'Marker was succesfully created'});
       }
+      peopleArr.map(function(person){
+        return person._id;
+      })
+      marker.shared = peopleArr;
+
+      // Set the coordinates
+      var coordsArray = [];
+      coordsArray.push(coords.lat);
+      coordsArray.push(coords.lng);
+
+      marker.location = coordsArray;
+
+      // Set the type of the marker
+      marker.type = markerType;
+
+      // Set the owner of the marker
+      marker.owner = result._id;
+
+
+
+      marker.save(function(err) {
+        console.log('Trying to persist marker to MongoDB')
+        if(err) {
+          console.log(err);
+          next(err);
+        } else {
+          console.log("Marker added");
+          res.status(201).json({'message': 'Marker was succesfully created'});
+        }
+      })
     })
+
+
+    // for (var i = 0; i < people.length; i++){
+    //   console.log('Shared with: ', people[i])
+    //   User.findOne({id: people[i]}, function(error, result) {
+    //     if (error){
+    //       next(error);
+    //     }
+    //     console.log('Found user: ', result._id);
+    //     marker.shared.push(result._id)
+    //   })
+    // }
+
+
+
   })
 }
 
