@@ -18,9 +18,7 @@ module.exports.getSent = function(req, res, next) {
 }
 
 module.exports.getReceived = function(req, res, next) {
-  console.log('getSent');
   var id = req.params.fbid;
-  console.log(id);
 
   User
   .findOne({ id: id })
@@ -195,7 +193,7 @@ module.exports.deleteMarker = function(req, res, next) {
         next(err);
       }
       console.log('User: ', user);
-      if (user._id == result.owner){
+      if (user._id.equals(result.owner)){
         console.log('User is owner of marker');
         Marker.remove({_id: mongoId}, function(err, result){
           if (err){
@@ -208,7 +206,7 @@ module.exports.deleteMarker = function(req, res, next) {
       else {
         // Just pull the marker id from the list of markers in the user
 
-        User.update({'_id': user._id}, { $pull: { "markers" : { _id: mongoId } } }, false, true, function(err, update){
+        User.update({_id: user._id}, { $pull: { "markers" : { _id: mongoId } } }, false, true, function(err, update){
           if (err){
             next(err);
           }
