@@ -18,8 +18,6 @@ module.exports = function (io) {
         for (var i = 0; i < friends.length; i++){
           // Get the socketid out of the list of clients with help of fb id
 
-          console.log(data);
-
           if (clients.hasOwnProperty(friends[i])){
             var socketid = clients[friends[i]].clientId;
             if (io.sockets.connected[socketid]) {
@@ -42,21 +40,16 @@ module.exports = function (io) {
         clientInfo.customId  = data.customId;
         clientInfo.clientId  = socket.id;
 
-        console.log("fb-id: " + data.customId);
-
         // Save the fb-ids in friends
         requestClient.get('api/users/' + data.customId + '/friends', function(err, res, body){
-          console.log(body);
           clientInfo.friends = [];
 
           // For every friend, save the fb id in the clientinfo
           for (var i = 0; i < body.length; i++){
             var item = body[i];
-            console.log(item);
             clientInfo.friends.push(item.id);
           }
           clients[data.customId] = clientInfo;
-          console.log(clients);
           socket.emit('start-transmit', {});
         })
     })
@@ -114,7 +107,6 @@ var deleteMarkerFromFriends = function(id){
     var friends = clients[id].friends;
     for (var i = 0; i < friends.length; i++){
       // Get the socketid out of the list of clients with help of fb id
-      console.log(data);
 
       if (clients.hasOwnProperty(friends[i])){
         var socketid = clients[friends[i]].clientId;

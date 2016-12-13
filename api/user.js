@@ -4,9 +4,7 @@ var User = mongoose.model('User');
 var Marker = mongoose.model('Marker');
 
 module.exports.getSent = function(req, res, next) {
-  console.log('getSent');
   var id = req.params.fbid;
-  console.log(id);
 
   User
   .findOne({ id: id })
@@ -102,8 +100,6 @@ module.exports.addMarker = function(req, res, next) {
     if (error){
       next(error);
     }
-    console.log("Fb: ", fbid);
-    console.log("Mongo: ", result._id);
 
     // Loop over the people, find the ObjectId for the person and add that to the shared array of the marker
 
@@ -111,7 +107,7 @@ module.exports.addMarker = function(req, res, next) {
       if (err){
         next(err);
       }
-      peopleArr.map(function(person){
+      peopleArr = peopleArr.map(function(person){
         return person._id;
       })
       marker.shared = peopleArr;
