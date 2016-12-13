@@ -3,6 +3,17 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Marker = mongoose.model('Marker');
 
+module.exports.searchUsers = function(req, res, next){
+  var searchText = req.body.search;
+
+  User.find({name: new RegExp(searchText, "i")}, function(err, docs){
+    if (err){
+      next(err);
+    }
+    res.status(200).json(docs);
+  })
+}
+
 module.exports.getSent = function(req, res, next) {
   var id = req.params.fbid;
 

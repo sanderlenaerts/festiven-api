@@ -6,7 +6,7 @@ var ctrlReq = require('./request');
 var ctrlUser = require('./user');
 
 router.post('/users', ctrlAuth.register);
-
+router.post('/users/search', ctrlUser.searchUsers);
 router.post('/users/:fbid/sent', ctrlReq.send);
 router.post('/users/:fbid/friends', ctrlReq.accept);
 router.delete('/users/:fbid/received/:friendid', ctrlReq.decline);
