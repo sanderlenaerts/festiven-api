@@ -45,13 +45,16 @@ markerSchema.post('save', function(){
 });
 
 markerSchema.pre('remove', function(next){
+  console.log('Pre remove marker with id: ', this._id);
   this.shared.forEach(function(user_id){
+  console.log('The marker was shared with:', user_id);
     this.model('User').update({_id: user_id},
       {$pull: {'markers': this._id}},
       {safe: true}, function(err, result){
         if (err){
-          next();
+          next(err);
         }
+        console.log('Removed marker from all the shared users');
       })
   })
 })

@@ -182,7 +182,7 @@ module.exports.deleteMarker = function(req, res, next) {
   var fbid = req.params.fbid;
 
   console.log('MongodID before cast: ', id);
-  var mongoId = new mongoose.Schema.Types.ObjectId(id);
+  var mongoId = mongoose.Types.ObjectId(id);
   console.log('MongodID after cast: ', mongoId);
 
   Marker.findOne({_id: mongoId}, function(err, result){
@@ -194,11 +194,14 @@ module.exports.deleteMarker = function(req, res, next) {
       if (err){
         next(err);
       }
+      console.log('User: ', user);
       if (user._id == result.owner){
+        console.log('User is owner of marker');
         Marker.remove({_id: mongoId}, function(err, result){
           if (err){
             next(err);
           }
+          console.log('Completely removed marker');
           res.status(200).json({message: "Marker correctly deleted"});
         })
       }
