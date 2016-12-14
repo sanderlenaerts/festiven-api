@@ -204,7 +204,7 @@ module.exports.deleteMarker = function(req, res, next) {
         next(err);
       }
       console.log('User: ', user);
-      if (user._id.equals(result.owner)){
+      if (user._id.equals(marker.owner)){
         console.log('User is owner of marker');
         marker.remove(function(err, result){
           if (err){
