@@ -22,6 +22,21 @@ var markerSchema = new mongoose.Schema({
 
 });
 
+markerSchema.pre('remove', function(next){
+  console.log('Pre remove marker with id: ', this._id);
+  this.shared.forEach(function(user_id){
+  console.log('The marker was shared with:', user_id);
+    this.model('User').update({_id: user_id},
+      {$pull: {'markers': this._id}},
+      {safe: true}, function(err, result){
+        if (err){
+          next(err);
+        }
+        console.log('Removed marker from all the shared users');
+      })
+  })
+})
+
 // Before we save a marker, add it to the
 markerSchema.post('save', function(){
 
@@ -44,20 +59,7 @@ markerSchema.post('save', function(){
 
 });
 
-markerSchema.pre('remove', function(next){
-  console.log('Pre remove marker with id: ', this._id);
-  this.shared.forEach(function(user_id){
-  console.log('The marker was shared with:', user_id);
-    this.model('User').update({_id: user_id},
-      {$pull: {'markers': this._id}},
-      {safe: true}, function(err, result){
-        if (err){
-          next(err);
-        }
-        console.log('Removed marker from all the shared users');
-      })
-  })
-})
+
 
 // Export the created models so they're accessible by name through Mongoose
 mongoose.model('Marker', markerSchema)
