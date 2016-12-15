@@ -18,7 +18,10 @@ var markerSchema = new mongoose.Schema({
   shared: [{
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'User'
-  }]
+  }],
+  description: {
+    type: String
+  }
 
 });
 

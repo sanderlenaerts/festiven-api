@@ -100,6 +100,7 @@ module.exports.addMarker = function(req, res, next) {
   var people = req.body.people;
   var coords = req.body.location;
   var markerType = req.body.markerType;
+  var description = req.body.description;
 
   var marker = new Marker();
 
@@ -131,6 +132,9 @@ module.exports.addMarker = function(req, res, next) {
       // Set the type of the marker
       marker.type = markerType;
 
+      // Set the description
+      marker.description = description;
+
       // Set the owner of the marker
       marker.owner = result._id;
 
@@ -147,21 +151,6 @@ module.exports.addMarker = function(req, res, next) {
         }
       })
     })
-
-
-    // for (var i = 0; i < people.length; i++){
-    //   console.log('Shared with: ', people[i])
-    //   User.findOne({id: people[i]}, function(error, result) {
-    //     if (error){
-    //       next(error);
-    //     }
-    //     console.log('Found user: ', result._id);
-    //     marker.shared.push(result._id)
-    //   })
-    // }
-
-
-
   })
 }
 
