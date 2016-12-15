@@ -31,21 +31,11 @@ markerSchema.pre('remove', function(next){
   console.log('The marker was shared with:', user_id);
     this.model('User').update({_id: user_id},
       {$pull: {'markers': this._id}},
-      {safe: true}, function(err, result){
-        if (err){
-          next(err);
-        }
-        console.log('Removed marker from all the shared users');
-      })
+      {safe: true}, next)
   })
   this.model('User').update({_id: this.owner},
     {$pull: {'markers': this._id}},
-    {safe: true}, function(err, result){
-      if (err){
-        next(err);
-      }
-      console.log('Removed marker from the owner');
-    })
+    {safe: true}, next)
 })
 
 // Before we save a marker, add it to the
@@ -56,11 +46,15 @@ markerSchema.post('save', function(){
   for (var i = 0; i < this.shared.length; i++){
     console.log('Save marker id to: ', this.shared[i]);
     this.model('User').update({_id: this.shared[i]},{ $addToSet: {
-      markers: this._id} }, {multi: true}, next);
+      markers: this._id} }, {multi: true}, function(err, result){
+
+      });
   }
 
   this.model('User').update({_id: this.owner},{ $addToSet: {
-    markers: this._id} }, {multi: true}, next);
+    markers: this._id} }, {multi: true}, function(err, result){
+
+    });
 
   console.log('Finished pre marker save');
 
