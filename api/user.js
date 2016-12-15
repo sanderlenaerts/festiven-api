@@ -206,14 +206,15 @@ module.exports.deleteMarker = function(req, res, next) {
       else {
         // Just pull the marker id from the list of markers in the user
 
-        User.update({_id: user._id}, { $pull: { "markers" : { mongoId } } }, false, true, function(err, update){
-          if (err){
-            next(err);
-          }
-          res.status(200).json({message: "Marker correctly deleted from the user"});
-        });
-
-
+        User.findOneAndUpdate(
+          {_id: user._id},
+          {$pull: {'markers': mongoId}},
+          {safe: true}, function(err, result){
+            if (err){
+              console.log(err);
+              next(err);
+            }
+          })
       }
     })
   })
