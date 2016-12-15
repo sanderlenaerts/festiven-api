@@ -44,7 +44,7 @@ markerSchema.pre('remove', function(next){
       if (err){
         next(err);
       }
-      console.log('Removed marker from all the shared users');
+      console.log('Removed marker from the owner');
     })
 })
 
