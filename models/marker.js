@@ -56,15 +56,11 @@ markerSchema.post('save', function(){
   for (var i = 0; i < this.shared.length; i++){
     console.log('Save marker id to: ', this.shared[i]);
     this.model('User').update({_id: this.shared[i]},{ $addToSet: {
-      markers: this._id} }, {multi: true}, function(err, result){
-
-      });
+      markers: this._id} }, {multi: true}, next);
   }
 
   this.model('User').update({_id: this.owner},{ $addToSet: {
-    markers: this._id} }, {multi: true}, function(err, result){
-
-    });
+    markers: this._id} }, {multi: true}, next);
 
   console.log('Finished pre marker save');
 
