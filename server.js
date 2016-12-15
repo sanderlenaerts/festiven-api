@@ -1,10 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-
-
-
-
+var logger = require('morgan');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -17,7 +14,7 @@ var PORT = process.env.PORT || 8080;
 //require('./socket');
 require('./db');
 
-
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
