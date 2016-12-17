@@ -14,5 +14,8 @@ before_install:
 before_script:
 - echo -e "Host 188.166.58.138\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
+script:
+- bash _scripts/build.sh
+
 after_success:
 - bash _scripts/deploy.sh
