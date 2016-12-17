@@ -11,5 +11,8 @@ node_js:
 before_install:
 - bash _scripts/install.sh
 
+before_script:
+- echo -e "Host 188.166.58.138\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
 after_success:
 - bash _scripts/deploy.sh
