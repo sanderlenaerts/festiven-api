@@ -4,6 +4,4 @@ set -x
 # Compress assets with Zopfli
 mkdir _site
 ls
-shopt -s extglob dotglob
-mv !(_site) _site
-shopt -u dotglob
+TARGETDIR='_site';for file in *;do test "$file" != "$TARGETDIR" && cp -r "$file" "$TARGETDIR/";done
