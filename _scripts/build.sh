@@ -3,6 +3,7 @@ set -x
 
 # Compress assets with Zopfli
 mkdir _site
-cd ../
 ls
-cp -r * _site
+shopt -s extglob dotglob
+mv !(_site) _site
+shopt -u dotglob
