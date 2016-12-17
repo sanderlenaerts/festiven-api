@@ -3,6 +3,7 @@ set -x
 if [ $TRAVIS_BRANCH == 'master' ] ; then
     # Initialize a new git repo in _site, and push it to our server.
     cd _site
+    ls
     git init
 
     git remote add deploy "deploy@188.166.58.138:/root/festiven"
