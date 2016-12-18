@@ -27,14 +27,14 @@ var markerSchema = new mongoose.Schema({
 
 markerSchema.pre('remove', function(next){
   console.log('Pre remove marker with id: ', this._id);
-  // this.shared.forEach(function(user_id){
-  // console.log('The marker was shared with:', user_id);
-  //   this.model('User').update({_id: user_id},
-  //     {$pull: {'markers': this._id}},
-  //     {safe: true}, next)
-  // })
+  this.shared.forEach(function(user_id){
+  console.log('The marker was shared with:', user_id);
+    this.model('User').update({_id: user_id},
+      {$pull: {'markers': this._id}},
+      {safe: true}, next)
+  })
 
-  this.model('User').update({}, {$pull: { markers: this._id}}, {multi: true}, next)
+  // this.model('User').update({}, {$pull: { 'markers': this._id}}, {multi: true}, next)
 
 
   this.model('User').update({_id: this.owner},
