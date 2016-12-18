@@ -214,17 +214,19 @@ module.exports.deleteMarker = function(req, res, next) {
               console.log(err);
               next(err);
             }
+            User.findOneAndUpdate(
+              {_id: user._id},
+              {$pull: {'markers': mongoId}},
+              {safe: true}, function(err, result){
+                if (err){
+                  console.log(err);
+                  next(err);
+                }
+                res.status(200).json({message: "Marker correctly deleted"});
+              })
           })
 
-        User.findOneAndUpdate(
-          {_id: user._id},
-          {$pull: {'markers': mongoId}},
-          {safe: true}, function(err, result){
-            if (err){
-              console.log(err);
-              next(err);
-            }
-          })
+
       }
     })
   })
