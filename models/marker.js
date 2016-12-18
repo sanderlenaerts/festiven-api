@@ -26,37 +26,29 @@ var markerSchema = new mongoose.Schema({
 });
 
 markerSchema.pre('remove', function(next){
-  console.log('Post remove marker with id: ', this._id);
-  // this.shared.forEach(function(user_id){
-  // console.log('The marker was shared with:', user_id);
-  //   this.model('User').update({_id: user_id},
-  //     {$pull: {'markers': this._id}},
-  //     {safe: true}, next)
-  // })
+  console.log('Post remove marker with id from owner: ', this._id);
+
+  this.model('User').update({_id: this.owner},
+    {$pull: {'markers': this._id}},
+    {safe: true}, function(err, result){
+      if (err){
+        console.log('Error while removing marker from owner');
+        console.log(err);
+      }
+      next();
+    })
+})
+
+markerSchema.pre('remove', function(next){
+  console.log('Post remove marker with id from shared users: ', this._id);
 
   this.model('User').update({}, {$pull: { 'markers': this._id}}, {multi: true}, function(err, result){
     if (err){
-      console.log(err);
+      console.log('Error while removing marker from shared user');
+      console.log(err)
     }
-    else {
-      console.log("Success remove from shared users")
-      this.model('User').update({_id: this.owner},
-        {$pull: {'markers': this._id}},
-        {safe: true}, function(err, upd){
-          if (err){
-            console.log(err);
-          }
-          else {
-            console.log("Success remove from owner")
-            next();
-          }
-        })
-    }
-
+    next();
   })
-
-
-
 })
 
 // Before we save a marker, add it to the
