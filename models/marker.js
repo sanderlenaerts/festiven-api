@@ -34,12 +34,29 @@ markerSchema.pre('remove', function(next){
   //     {safe: true}, next)
   // })
 
-  this.model('User').update({}, {$pull: { 'markers': this._id}}, {multi: true}, next)
+  this.model('User').update({}, {$pull: { 'markers': this._id}}, {multi: true}, function(err, result){
+    if (err){
+      console.log(err);
+    }
+    else {
+      console.log("Success remove from shared users")
+      this.model('User').update({_id: this.owner},
+        {$pull: {'markers': this._id}},
+        {safe: true}, function(err, upd){
+          if (err){
+            console.log(err);
+          }
+          else {
+            console.log("Success remove from owner")
+            next();
+          }
+        })
+    }
+
+  })
 
 
-  this.model('User').update({_id: this.owner},
-    {$pull: {'markers': this._id}},
-    {safe: true}, next)
+
 })
 
 // Before we save a marker, add it to the
