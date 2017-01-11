@@ -13,6 +13,7 @@ router.delete('/users/:fbid/received/:friendid', ctrlReq.decline);
 router.delete('/users/:fbid/sent/:friendid/', ctrlReq.cancel);
 
 // Turn into get with parameter in URI
+router.get('/users/', ctrlUser.getUsers);
 router.get('/users/:fbid/sent', ctrlUser.getSent);
 router.get('/users/:fbid/received', ctrlUser.getReceived);
 router.get('/users/:fbid/friends', ctrlUser.getFriends);

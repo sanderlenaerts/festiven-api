@@ -14,6 +14,19 @@ module.exports.searchUsers = function(req, res, next){
   })
 }
 
+module.exports.getUsers = function(req, res, next) {
+
+  User
+  .find({})
+  .exec(function(err, users){
+    if (err){
+      console.log(err);
+      next(err);
+    }
+    res.status(200).json(users);
+  });
+}
+
 module.exports.getSent = function(req, res, next) {
   var id = req.params.fbid;
 
